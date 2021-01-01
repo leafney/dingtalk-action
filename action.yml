@@ -1,5 +1,5 @@
-name: 'Wait'
-description: 'Wait a designated number of milliseconds'
+name: 'Dingtalk Robot Notify'
+description: 'Send notifications to Dingtalk'
 inputs:
   milliseconds:  # id of input
     description: 'number of milliseconds to wait'
@@ -11,3 +11,6 @@ outputs:
 runs:
   using: 'node12'
   main: 'dist/index.js'
+branding:
+  icon: "bell"
+  color: "green"
