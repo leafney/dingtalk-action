@@ -6,11 +6,27 @@ on:
 
 jobs:
   # test action works running from the graph
-  test:
+  success-notify:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    # - run: exit 0
+    - run: exit 0
+    - name: run action
+      uses: ./
+      if: always()
+      env:
+        DINGTALK_ACCESS_TOKEN: ${{ secrets.DINGTALK_ACCESS_TOKEN }}
+      with:
+        msgtype: markdown
+        notify_when: 'success'
+        title: '代码测试通过'
+        text: |
+          ### GitHub Action workflow **${{ github.workflow }}** 构建成功
+
+  failure-notify:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
     - run: exit 1
     - name: run action
       uses: ./
@@ -18,7 +34,8 @@ jobs:
       env:
         DINGTALK_ACCESS_TOKEN: ${{ secrets.DINGTALK_ACCESS_TOKEN }}
       with:
-        msgtype: link
-        notify_when: 'success'
-        title: '这是一个链接通知'
-        text: '测试--钉钉消息测试，链接测试'
+        msgtype: markdown
+        notify_when: 'failure'
+        title: '代码测试发现异常'
+        text: |
+          ### GitHub Action workflow **${{ github.workflow }}** 构建失败 \n 代码发现异常
