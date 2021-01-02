@@ -21,7 +21,7 @@ jobs:
         notify_when: 'success'
         title: '代码测试通过'
         text: |
-          **<font color=#00FF00 size=3>构建成功</font>**
+          **<font color=#00FF00 size=4>构建成功</font>**
 
           ### GitHub Action workflow **${{ github.workflow }}** 构建成功
 

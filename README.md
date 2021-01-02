@@ -44,7 +44,7 @@ steps:
 
 | option | type | required | default | description |
 | ------ | ---- | -------- | ------- | ----------- |
-| `text` | string | Yes | `''` | Message content |
+| `text` | string | Yes | `'This is the default content'` | Message content |
 | `at_mobiles` | string | No | `''` | The phone number of the @person (add the phone number of the @person in the content) |
 | `at_all` | bool | No | `false` | Do you @everyone |
 
@@ -87,16 +87,48 @@ steps:
 ### Example usage
 
 ```
-steps:
-  - uses: leafney/dingtalk-action@v1
-    if: always()
-    env:
-      DINGTALK_ACCESS_TOKEN: ${{ secrets.DINGTALK_ACCESS_TOKEN }}
-    with:
-      msgtype: link
-      title: '这是一个链接通知'
-      text: '测试--钉钉消息测试，链接通知'
-      msg_url: 'https://github.com/'
+jobs:
+  success-notify:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - run: exit 0
+    - name: success notify
+      uses: leafney/dingtalk-action@v1
+      if: always()
+      env:
+        DINGTALK_ACCESS_TOKEN: ${{ secrets.DINGTALK_ACCESS_TOKEN }}
+      with:
+        msgtype: markdown
+        notify_when: 'success'
+        title: '代码测试通过'
+        text: |
+          **<font color=#00FF00 size=4>构建成功</font>**
+
+          ### GitHub Action workflow **${{ github.workflow }}** 构建成功
+
+  failure-notify:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - run: exit 1
+    - name: failure notify
+      uses: leafney/dingtalk-action@v1
+      if: always()
+      env:
+        DINGTALK_ACCESS_TOKEN: ${{ secrets.DINGTALK_ACCESS_TOKEN }}
+      with:
+        msgtype: markdown
+        notify_when: 'failure'
+        title: '代码测试发现异常'
+        text: |
+          **<font color=#FF0000 size=4>构建失败</font>**
+
+          ### GitHub Action workflow **${{ github.workflow }}** 构建失败
+
+          - 问题一
+          - 问题二
+          - 问题三
 ```
 
 ### Options
