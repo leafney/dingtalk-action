@@ -12,7 +12,7 @@ async function run() {
     const accessToken = process.env.DINGTALK_ACCESS_TOKEN || '';
     const secret = process.env.DINGTALK_SECRET || '';
 
-    const jobStatus = core.getInput('job_status');
+    const jobStatus = core.getInput('status');
     const msgtype = core.getInput('msgtype', { required: true });
 
     core.info(`环境变量及参数 accessToken:${accessToken} secret:${secret} jobStatus:${jobStatus} msgtype:${msgtype}`);
