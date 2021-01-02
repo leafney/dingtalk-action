@@ -30,8 +30,8 @@ async function run() {
     core.info(`输入参数 notifyWhen:${notifyWhen} title:${title} text:${text} atMobiles:${atMobiles} atAll:${atAll}`);
 
     // // msgtype of link
-    // const msgUrl = core.getInput('');
-    // const picUrl = core.getInput('');
+    const msgUrl = core.getInput('msg_url');
+    const picUrl = core.getInput('pic_url');
 
     // msgtype of actionCard
     // msgtype of feedCard
@@ -51,9 +51,15 @@ async function run() {
         } else if (atAll) {
           payload['at']['isAtAll'] = atAll;
         }
+        break;
+      case 'link':
+        // payload['link'] = {};
+        payload['link']['title'] = title;
+        payload['link']['text'] = text;
+        payload['link']['messageUrl'] = msgUrl;
+        payload['link']['picUrl'] = picUrl;
 
         break;
-
       default:
         break;
     }

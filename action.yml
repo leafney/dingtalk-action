@@ -18,12 +18,12 @@ inputs:
   title:
     description: 'title'
     required: false
-    default: ''
+    default: 'This is the default title'
 
   text:
     description: 'message context or markdown format context'
     required: false
-    default: ''
+    default: 'This is the default content'
 
   at_mobiles:
     description: 'atMobiles'
@@ -34,6 +34,16 @@ inputs:
     description: 'isAtAll'
     required: false
     default: 'false'
+
+  msg_url:
+    description: 'messageUrl for link type message'
+    required: false
+    default: 'https://github.com/leafney/dingtalk-action'
+
+  pic_url:
+    description: 'picUrl for link type message'
+    required: false
+    default: ''
 
 runs:
   using: 'node12'
