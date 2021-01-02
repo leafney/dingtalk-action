@@ -53,7 +53,7 @@ async function run() {
         }
         break;
       case 'link':
-        // payload['link'] = {};
+        payload['link'] = {};
         payload['link']['title'] = title;
         payload['link']['text'] = text;
         payload['link']['messageUrl'] = msgUrl;

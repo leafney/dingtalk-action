@@ -5,28 +5,25 @@ on:
       - test/*
 
 jobs:
-  # # lint
-  # lint:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #   - uses: actions/checkout@v2
-  #   - run: npm ci
-  #   - run: npm run lint
+  # before steps
+  before:
+    runs-on: ubuntu-latest
+    steps:
+    - run: echo "before steps"
+    - run: exit 1
+
 
   # test action works running from the graph
   test:
     runs-on: ubuntu-latest
-    # needs: lint
+    needs: before
     steps:
     - uses: actions/checkout@v2
-    - uses: ./
+    - name: run action
+      uses: ./
       if: always()
       env:
         DINGTALK_ACCESS_TOKEN: ${{ secrets.DINGTALK_ACCESS_TOKEN }}
-      # with:
-        # msgtype: text
-        # text: '测试--钉钉 @15321604271 消息通知测试'
-        # at_mobiles: '15321604271,15321604272'
       with:
         msgtype: link
         notify_when: 'failure'
