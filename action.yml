@@ -1,7 +1,7 @@
 name: 'Dingtalk Robot Notify'
 description: 'Send notifications to Dingtalk'
 inputs:
-  status:
+  job-status:
     description: 'job status'
     required: true
 
