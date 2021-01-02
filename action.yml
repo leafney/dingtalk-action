@@ -33,12 +33,12 @@ inputs:
   at_all:
     description: 'isAtAll'
     required: false
-    default: 'false'
+    default: ''
 
   msg_url:
     description: 'messageUrl for link type message'
     required: false
-    default: 'https://github.com/leafney/dingtalk-action'
+    default: ''
 
   pic_url:
     description: 'picUrl for link type message'

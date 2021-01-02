@@ -9,6 +9,7 @@ const core = __webpack_require__(2186);
 const axios = __webpack_require__(6545);
 const crypto = __webpack_require__(6417);
 
+const ACTION_PACKAGE = 'https://github.com/leafney/dingtalk-action';
 const DINGTALK_URL = 'https://oapi.dingtalk.com/robot/send';
 const VALID_MSGTYPES = ['text', 'link', 'markdown', 'actionCard', 'feedCard'];
 
@@ -37,7 +38,7 @@ async function run() {
     core.info(`输入参数 notifyWhen:${notifyWhen} title:${title} text:${text} atMobiles:${atMobiles} atAll:${atAll}`);
 
     // // msgtype of link
-    const msgUrl = core.getInput('msg_url');
+    const msgUrl = core.getInput('msg_url') || ACTION_PACKAGE;
     const picUrl = core.getInput('pic_url');
 
     // msgtype of actionCard
@@ -65,7 +66,19 @@ async function run() {
         payload['link']['text'] = text;
         payload['link']['messageUrl'] = msgUrl;
         payload['link']['picUrl'] = picUrl;
+        break;
+      case 'markdown':
+        payload['markdown'] = {};
+        payload['markdown']['title'] = title;
+        payload['markdown']['text'] = text;
+        payload['at'] = {};
 
+        if (atMobiles) {
+          payload['at']['atMobiles'] = atMobiles.split(',');
+          payload['at']['isAtAll'] = atAll;
+        } else if (atAll) {
+          payload['at']['isAtAll'] = atAll;
+        }
         break;
       default:
         break;
@@ -103,7 +116,7 @@ async function run() {
         throw new Error(`Dingtalk Robot Notify Return Error: [${ret.data.errcode}] ${ret.data.message}`);
       }
     } else {
-      core.info(`Dingtalk Robot Notify Action Skipped Status: ${jobStatus}`);
+      core.info(`Dingtalk Robot Notify Skipped Status: ${jobStatus}`);
     }
 
   } catch (error) {
