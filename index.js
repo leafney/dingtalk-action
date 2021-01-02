@@ -45,8 +45,12 @@ async function run() {
 
         if (atMobiles) {
           payload['at']['atMobiles'] = atMobiles.split(',');
+          payload['at']['isAtAll'] = atAll;
         }
-        payload['at']['isAtAll'] = atAll;
+        if (atAll) {
+          payload['at']['isAtAll'] = atAll;
+        }
+
         break;
 
       default:
