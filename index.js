@@ -42,8 +42,8 @@ async function run() {
     switch (msgtype) {
       case 'text':
         payload['text'] = {};
-        payload['at'] = {};
         payload['text']['content'] = text;
+        payload['at'] = {};
 
         if (atMobiles) {
           payload['at']['atMobiles'] = atMobiles.split(',');

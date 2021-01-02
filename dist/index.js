@@ -48,6 +48,7 @@ async function run() {
     let payload = { msgtype };
     switch (msgtype) {
       case 'text':
+        payload['text'] = {};
         payload['text']['content'] = text;
         payload['at'] = {};
 
