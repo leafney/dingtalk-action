@@ -26,3 +26,4 @@ jobs:
       with:
         msgtype: 'text'
         text: '测试--钉钉消息通知测试'
+        at_all: true
