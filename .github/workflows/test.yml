@@ -24,6 +24,6 @@ jobs:
       env:
         DINGTALK_ACCESS_TOKEN: ${{ secrets.DINGTALK_ACCESS_TOKEN }}
       with:
-        msgtype: 'text'
-        text: '测试--钉钉消息通知测试'
-        at_all: true
+        msgtype: text
+        text: '测试--钉钉 @15321604271 消息通知测试'
+        at_mobiles: '15321604271,15321604272'

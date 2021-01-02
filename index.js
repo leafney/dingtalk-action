@@ -48,10 +48,8 @@ async function run() {
         if (atMobiles) {
           payload['at']['atMobiles'] = atMobiles.split(',');
           payload['at']['isAtAll'] = atAll;
-          core.info(`50 -- payload: ${payload}`);
         } else if (atAll) {
           payload['at']['isAtAll'] = atAll;
-          core.info(`53 -- payload: ${payload}`);
         }
 
         break;
