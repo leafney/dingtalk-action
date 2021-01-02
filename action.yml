@@ -4,7 +4,6 @@ inputs:
   status:
     description: 'job status'
     required: true
-    default: ${{ job.status }}
 
   msgtype:
     description: 'dingtalk message type'

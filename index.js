@@ -47,9 +47,10 @@ async function run() {
         if (atMobiles) {
           payload['at']['atMobiles'] = atMobiles.split(',');
           payload['at']['isAtAll'] = atAll;
-        }
-        if (atAll) {
+          core.debug(`50 -- payload: ${payload}`);
+        } else if (atAll) {
           payload['at']['isAtAll'] = atAll;
+          core.debug(`53 -- payload: ${payload}`);
         }
 
         break;
@@ -58,7 +59,7 @@ async function run() {
         break;
     }
 
-    core.info(`the payload context: ${JSON.stringify(payload)}`);
+    core.info(`the payload ${payload} of context: ${JSON.stringify(payload)}`);
 
     const url = new URL(`?access_token=${accessToken}`, DINGTALK_URL);
 
