@@ -19,6 +19,6 @@ jobs:
         DINGTALK_ACCESS_TOKEN: ${{ secrets.DINGTALK_ACCESS_TOKEN }}
       with:
         msgtype: link
-        notify_when: 'failure'
+        notify_when: 'success'
         title: '这是一个链接通知'
         text: '测试--钉钉消息测试，链接测试'
