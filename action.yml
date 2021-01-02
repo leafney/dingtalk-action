@@ -1,6 +1,10 @@
 name: 'Dingtalk Robot Notify'
 description: 'Send notifications to Dingtalk'
 inputs:
+  job_status:
+    description: 'job status'
+    default: ${{ job.status }}
+
   msgtype:
     description: 'dingtalk message type'
     required: true
