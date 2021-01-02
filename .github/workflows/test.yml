@@ -5,20 +5,13 @@ on:
       - test/*
 
 jobs:
-  # before steps
-  before:
-    runs-on: ubuntu-latest
-    steps:
-    - run: echo "before steps"
-    - run: exit 1
-
-
   # test action works running from the graph
   test:
     runs-on: ubuntu-latest
-    needs: before
     steps:
     - uses: actions/checkout@v2
+    # - run: exit 0
+    - run: exit 1
     - name: run action
       uses: ./
       if: always()
