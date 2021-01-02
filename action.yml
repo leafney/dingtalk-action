@@ -1,13 +1,36 @@
 name: 'Dingtalk Robot Notify'
 description: 'Send notifications to Dingtalk'
 inputs:
-  milliseconds:  # id of input
-    description: 'number of milliseconds to wait'
+  msgtype:
+    description: 'dingtalk message type'
     required: true
-    default: '1000'
-outputs:
-  time: # output will be available to future steps
-    description: 'The message to output'
+    default: 'text'
+
+  notify_when:
+    description: 'Specify on which events a dingtalk notification is sent'
+    required: false
+    default: 'success,failure,cancelled'
+
+  title:
+    description: 'title'
+    required: false
+    default: ''
+
+  text:
+    description: 'message context or markdown format context'
+    required: false
+    default: ''
+
+  at_mobiles:
+    description: 'atMobiles'
+    required: false
+    default: ''
+
+  at_all:
+    description: 'isAtAll'
+    required: false
+    default: 'false'
+
 runs:
   using: 'node12'
   main: 'dist/index.js'

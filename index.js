@@ -14,14 +14,19 @@ async function run() {
     const jobStatus = process.env.JOB_STATUS || '';
     const msgtype = core.getInput('msgtype', { required: true });
 
-    if (accessToken == '') throw new Error('The environment variable parameter DINGTALK_ACCESS_TOKEN is required');
+    core.info(`环境变量及参数 accessToken:${accessToken} secret:${secret} jobStatus:${jobStatus} msgtype:${msgtype}`);
+
+    if (accessToken == '') throw new Error('The environment variable parameter [DINGTALK_ACCESS_TOKEN] is required');
 
     if (!VALID_MSGTYPES.includes(msgtype)) throw new Error(`msgtype should be one of ${VALID_MSGTYPES.join(',')}`);
 
-    const notifyWhen = core.getInput('notify_when');
+    let notifyWhen = core.getInput('notify_when');
     const title = core.getInput('title');
     const text = core.getInput('text');
-    const textAt = core.getInput('at');
+    const atMobiles = core.getInput('at_mobiles');
+    const atAll = core.getInput('at_all');
+
+    core.info(`输入参数 notifyWhen:${notifyWhen} title:${title} text:${text} atMobiles:${atMobiles} atAll:${atAll}`);
 
     // // msgtype of link
     // const msgUrl = core.getInput('');
@@ -29,13 +34,26 @@ async function run() {
 
     // msgtype of actionCard
     // msgtype of feedCard
+    // const customCont = core.getInput('custom');
 
 
-    const payload = {
-      msgtype,
-      [msgtype]: content,
-      at
-    };
+    let payload = { msgtype };
+    switch (msgtype) {
+      case 'text':
+        payload['text'] = text;
+        payload['at'] = {};
+
+        if (atMobiles) {
+          payload['at']['atMobiles'] = atMobiles.split(',');
+        }
+        payload['at']['isAtAll'] = atAll;
+        break;
+
+      default:
+        break;
+    }
+
+    core.info(`the payload context: ${JSON.stringify(payload)}`);
 
     const url = new URL(`?access_token=${accessToken}`, DINGTALK_URL);
 
