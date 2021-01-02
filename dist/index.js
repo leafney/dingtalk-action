@@ -19,13 +19,13 @@ async function run() {
     const accessToken = process.env.DINGTALK_ACCESS_TOKEN || '';
     const secret = process.env.DINGTALK_SECRET || '';
 
-    const jobStatus = core.getInput('job-status', { required: true });
+    const jobStatus = core.getInput('status');
     const msgtype = core.getInput('msgtype', { required: true });
 
     core.info(`环境变量及参数 accessToken:${accessToken} secret:${secret} jobStatus:${jobStatus} msgtype:${msgtype}`);
 
     if (accessToken == '') throw new Error('The environment variable parameter [DINGTALK_ACCESS_TOKEN] is required');
-
+    if (jobStatus == '') throw new Error('The input parameter [status] is empty');
     if (!VALID_MSGTYPES.includes(msgtype)) throw new Error(`msgtype should be one of ${VALID_MSGTYPES.join(',')}`);
 
     let notifyWhen = core.getInput('notify_when');
@@ -48,7 +48,7 @@ async function run() {
     let payload = { msgtype };
     switch (msgtype) {
       case 'text':
-        payload['text'] = text;
+        payload['text']['content'] = text;
         payload['at'] = {};
 
         if (atMobiles) {
@@ -66,7 +66,7 @@ async function run() {
         break;
     }
 
-    core.info(`the payload ${payload} of context: ${JSON.stringify(payload)}`);
+    core.info(`the payload context: ${JSON.stringify(payload)}`);
 
     const url = new URL(`?access_token=${accessToken}`, DINGTALK_URL);
 
