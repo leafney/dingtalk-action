@@ -18,7 +18,8 @@ async function run() {
 
     const accessToken = process.env.DINGTALK_ACCESS_TOKEN || '';
     const secret = process.env.DINGTALK_SECRET || '';
-    const jobStatus = process.env.JOB_STATUS || '';
+
+    const jobStatus = core.getInput('job-status', { required: true });
     const msgtype = core.getInput('msgtype', { required: true });
 
     core.info(`环境变量及参数 accessToken:${accessToken} secret:${secret} jobStatus:${jobStatus} msgtype:${msgtype}`);
@@ -31,7 +32,7 @@ async function run() {
     const title = core.getInput('title');
     const text = core.getInput('text');
     const atMobiles = core.getInput('at_mobiles');
-    const atAll = core.getInput('at_all');
+    const atAll = (core.getInput('at_all') || 'false').toUpperCase() === 'TRUE';
 
     core.info(`输入参数 notifyWhen:${notifyWhen} title:${title} text:${text} atMobiles:${atMobiles} atAll:${atAll}`);
 
@@ -53,9 +54,10 @@ async function run() {
         if (atMobiles) {
           payload['at']['atMobiles'] = atMobiles.split(',');
           payload['at']['isAtAll'] = atAll;
-        }
-        if (atAll) {
+          core.info(`50 -- payload: ${payload}`);
+        } else if (atAll) {
           payload['at']['isAtAll'] = atAll;
+          core.info(`53 -- payload: ${payload}`);
         }
 
         break;
@@ -64,7 +66,7 @@ async function run() {
         break;
     }
 
-    core.info(`the payload context: ${JSON.stringify(payload)}`);
+    core.info(`the payload ${payload} of context: ${JSON.stringify(payload)}`);
 
     const url = new URL(`?access_token=${accessToken}`, DINGTALK_URL);
 
