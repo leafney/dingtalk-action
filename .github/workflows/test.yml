@@ -21,6 +21,8 @@ jobs:
         notify_when: 'success'
         title: '代码测试通过'
         text: |
+          **<font color=red>构建成功</font>**
+
           ### GitHub Action workflow **${{ github.workflow }}** 构建成功
 
   failure-notify:
@@ -38,4 +40,10 @@ jobs:
         notify_when: 'failure'
         title: '代码测试发现异常'
         text: |
-          ### GitHub Action workflow **${{ github.workflow }}** 构建失败 \n 代码发现异常
+          **<font color=red>构建失败</font>**
+
+          ### GitHub Action workflow **${{ github.workflow }}** 构建失败
+          
+          - 问题一
+          - 问题二
+          - 问题三
