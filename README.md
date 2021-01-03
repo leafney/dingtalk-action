@@ -29,15 +29,19 @@ Github actions for sending notifications to Dingtalk
 ### Example usage
 
 ```
-steps:
-  - uses: leafney/dingtalk-action@v1
-    if: always()
-    env:
-      DINGTALK_ACCESS_TOKEN: ${{ secrets.DINGTALK_ACCESS_TOKEN }}
-    with:
-      msgtype: text
-      text: '测试--钉钉消息 @15311112222 通知测试'
-      at_mobiles: '15311112222,15233334444'
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: leafney/dingtalk-action@v1
+      if: always()
+      env:
+        DINGTALK_ACCESS_TOKEN: ${{ secrets.DINGTALK_ACCESS_TOKEN }}
+      with:
+        msgtype: text
+        text: '测试--钉钉消息 @15311112222 通知测试'
+        at_mobiles: '15311112222,15233334444'
 ```
 
 ### Options
@@ -57,16 +61,20 @@ steps:
 ### Example usage
 
 ```
-steps:
-  - uses: leafney/dingtalk-action@v1
-    if: always()
-    env:
-      DINGTALK_ACCESS_TOKEN: ${{ secrets.DINGTALK_ACCESS_TOKEN }}
-    with:
-      msgtype: link
-      title: '这是一个链接通知'
-      text: '测试--钉钉消息测试，链接通知'
-      msg_url: 'https://github.com/'
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: leafney/dingtalk-action@v1
+      if: always()
+      env:
+        DINGTALK_ACCESS_TOKEN: ${{ secrets.DINGTALK_ACCESS_TOKEN }}
+      with:
+        msgtype: link
+        title: '这是一个链接通知'
+        text: '测试--钉钉消息测试，链接通知'
+        msg_url: 'https://github.com/'
 ```
 
 ### Options
