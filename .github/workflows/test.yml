@@ -5,45 +5,100 @@ on:
       - test/*
 
 jobs:
-  # test action works running from the graph
-  success-notify:
+  test:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - run: exit 0
-    - name: run action
-      uses: ./
+
+    # text
+    # - uses: ./
+    #   if: always()
+    #   env:
+    #     DINGTALK_ACCESS_TOKEN: ${{ secrets.DINGTALK_ACCESS_TOKEN }}
+    #   with:
+    #     text: '测试--钉钉消息通知测试'
+
+    # actionCard
+    - uses: ./
       if: always()
       env:
         DINGTALK_ACCESS_TOKEN: ${{ secrets.DINGTALK_ACCESS_TOKEN }}
       with:
-        msgtype: markdown
-        notify_when: 'success'
-        title: '代码测试通过'
-        text: |
-          **<font color=#00FF00 size=4>构建成功</font>**
+        msgtype: actionCard
+        title: '独立跳转的actionCard测试'
+        text: '测试--钉钉消息通知测试'
+        btns: |
+          [
+            {
+                "title": "内容不错",
+                "actionURL": "https://www.dingtalk.com/"
+            },
+            {
+                "title": "不感兴趣",
+                "actionURL": "https://www.dingtalk.com/"
+            }
+          ]
 
-          ### GitHub Action workflow **${{ github.workflow }}** 构建成功
+    # # feedCard
+    # - uses: ./
+    #   if: always()
+    #   env:
+    #     DINGTALK_ACCESS_TOKEN: ${{ secrets.DINGTALK_ACCESS_TOKEN }}
+    #   with:
+    #     msgtype: feedCard
+    #     feed_links: |
+    #       [
+    #         {
+    #             "title": "测试feedCard-时代的火车向前开", 
+    #             "messageURL": "https://www.dingtalk.com/", 
+    #             "picURL": "https://img.alicdn.com/tfs/TB1yL3taUgQMeJjy0FeXXXOEVXa-492-380.png"
+    #         },
+    #         {
+    #             "title": "时代的火车向前开2", 
+    #             "messageURL": "https://www.dingtalk.com/", 
+    #             "picURL": "https://img.alicdn.com/tfs/TB1yL3taUgQMeJjy0FeXXXOEVXa-492-380.png"
+    #         }
+    #       ]
 
-  failure-notify:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v2
-    - run: exit 1
-    - name: run action
-      uses: ./
-      if: always()
-      env:
-        DINGTALK_ACCESS_TOKEN: ${{ secrets.DINGTALK_ACCESS_TOKEN }}
-      with:
-        msgtype: markdown
-        notify_when: 'failure'
-        title: '代码测试发现异常'
-        text: |
-          **<font color=#FF0000 size=4>构建失败</font>**
 
-          ### GitHub Action workflow **${{ github.workflow }}** 构建失败
+  # success-notify:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #   - uses: actions/checkout@v2
+  #   - run: exit 0
+  #   - name: run action
+  #     uses: ./
+  #     if: always()
+  #     env:
+  #       DINGTALK_ACCESS_TOKEN: ${{ secrets.DINGTALK_ACCESS_TOKEN }}
+  #     with:
+  #       msgtype: markdown
+  #       notify_when: 'success'
+  #       title: '代码测试通过'
+  #       text: |
+  #         **<font color=#00FF00 size=4>构建成功</font>**
 
-          - 问题一
-          - 问题二
-          - 问题三
+  #         ### GitHub Action workflow **${{ github.workflow }}** 构建成功
+
+  # failure-notify:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #   - uses: actions/checkout@v2
+  #   - run: exit 1
+  #   - name: run action
+  #     uses: ./
+  #     if: always()
+  #     env:
+  #       DINGTALK_ACCESS_TOKEN: ${{ secrets.DINGTALK_ACCESS_TOKEN }}
+  #     with:
+  #       msgtype: markdown
+  #       notify_when: 'failure'
+  #       title: '代码测试发现异常'
+  #       text: |
+  #         **<font color=#FF0000 size=4>构建失败</font>**
+
+  #         ### GitHub Action workflow **${{ github.workflow }}** 构建失败
+
+  #         - 问题一
+  #         - 问题二
+  #         - 问题三

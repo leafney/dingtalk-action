@@ -11,6 +11,7 @@ const crypto = __webpack_require__(6417);
 
 const ACTION_PACKAGE = 'https://github.com/leafney/dingtalk-action';
 const DINGTALK_URL = 'https://oapi.dingtalk.com/robot/send';
+
 const VALID_MSGTYPES = ['text', 'link', 'markdown', 'actionCard', 'feedCard'];
 
 // most @actions toolkit packages have async methods
@@ -21,9 +22,7 @@ async function run() {
     const secret = process.env.DINGTALK_SECRET || '';
 
     const jobStatus = core.getInput('status');
-    const msgtype = core.getInput('msgtype', { required: true });
-
-    core.info(`环境变量及参数 accessToken:${accessToken} secret:${secret} jobStatus:${jobStatus} msgtype:${msgtype}`);
+    const msgtype = core.getInput('msgtype');
 
     if (accessToken == '') throw new Error('The environment variable parameter [DINGTALK_ACCESS_TOKEN] is required');
     if (jobStatus == '') throw new Error('The input parameter [status] is empty');
@@ -32,19 +31,10 @@ async function run() {
     let notifyWhen = core.getInput('notify_when');
     const title = core.getInput('title');
     const text = core.getInput('text');
+
+    // msgtype of text and markdown
     const atMobiles = core.getInput('at_mobiles');
     const atAll = (core.getInput('at_all') || 'false').toUpperCase() === 'TRUE';
-
-    core.info(`输入参数 notifyWhen:${notifyWhen} title:${title} text:${text} atMobiles:${atMobiles} atAll:${atAll}`);
-
-    // // msgtype of link
-    const msgUrl = core.getInput('msg_url') || ACTION_PACKAGE;
-    const picUrl = core.getInput('pic_url');
-
-    // msgtype of actionCard
-    // msgtype of feedCard
-    // const customCont = core.getInput('custom');
-
 
     let payload = { msgtype };
     switch (msgtype) {
@@ -61,6 +51,10 @@ async function run() {
         }
         break;
       case 'link':
+        // msgtype of link
+        const msgUrl = core.getInput('msg_url') || ACTION_PACKAGE;
+        const picUrl = core.getInput('pic_url');
+
         payload['link'] = {};
         payload['link']['title'] = title;
         payload['link']['text'] = text;
@@ -80,11 +74,59 @@ async function run() {
           payload['at']['isAtAll'] = atAll;
         }
         break;
+      case 'actionCard':
+        // msgtype of actionCard
+        let singleTitle = core.getInput('single_title');
+        let singleUrl = core.getInput('single_url');
+        const btns = core.getInput('btns') || '[]';
+        const btnOrientation = core.getInput('btn_orientation') || '0';
+
+        let isOverAll = false;
+        if (singleTitle != '' || singleUrl != '') {
+          isOverAll = true;
+        }
+        singleTitle = singleTitle || 'Read More';
+        singleUrl = singleUrl || ACTION_PACKAGE;
+
+        const btnsObj = JSON.parse(btns);
+        if (!isOverAll) {
+          // btns must exist `title` and `actionURL`
+          const btnsRes = btnsObj.every(function (item) {
+            return ('title' in item) && ('actionURL' in item);
+          });
+          if (!btnsRes) throw new Error('btns list object should be exist [title] and [actionURL]');
+        }
+
+        payload['actionCard'] = {};
+        payload['actionCard']['title'] = title;
+        payload['actionCard']['text'] = text;
+        payload['actionCard']['btnOrientation'] = btnOrientation;
+
+        if (isOverAll) {
+          payload['actionCard']['singleTitle'] = singleTitle;
+          payload['actionCard']['singleURL'] = singleUrl;
+        } else {
+          payload['actionCard']['btns'] = btnsObj;
+        }
+        break;
+      case 'feedCard':
+        // msgtype of feedCard
+        const feedLinks = core.getInput('feed_links') || '[]';
+        const feedObj = JSON.parse(feedLinks);
+
+        const feedRes = feedObj.every(function (item) {
+          return ('title' in item) && ('messageURL' in item) && ('picURL' in item);
+        });
+        if (!feedRes) throw new Error('feed_links list object should be exist [title] [messageURL] and [picURL]');
+
+        payload['feedCard'] = {};
+        payload['feedCard']['links'] = feedObj;
+        break;
       default:
         break;
     }
 
-    core.info(`the payload context: ${JSON.stringify(payload)}`);
+    // core.info(`the payload context: ${JSON.stringify(payload)}`);
 
     const url = new URL(`?access_token=${accessToken}`, DINGTALK_URL);
 
@@ -111,12 +153,13 @@ async function run() {
         }
       });
 
-      core.info('Dingtalk Robot Notify Response: ', ret.data);
       if (ret.data.errcode) {
-        throw new Error(`Dingtalk Robot Notify Return Error: [${ret.data.errcode}] ${ret.data.message}`);
+        throw new Error(`Dingtalk Robot Notify Return Error: [${ret.data.errcode}] ${ret.data.errmsg}`);
+      } else {
+        core.info(`Dingtalk Robot Notify Sent Successfully!`);
       }
     } else {
-      core.info(`Dingtalk Robot Notify Skipped Status: ${jobStatus}`);
+      core.info(`Dingtalk Robot Notify Skipped Status: [${jobStatus}]`);
     }
 
   } catch (error) {
