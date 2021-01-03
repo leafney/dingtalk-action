@@ -16,12 +16,12 @@ inputs:
     default: 'success,failure,cancelled'
 
   title:
-    description: 'title'
+    description: 'message title'
     required: false
     default: 'This is the default title'
 
   text:
-    description: 'message context or markdown format context'
+    description: 'message text or markdown format context'
     required: false
     default: 'This is the default content'
 
@@ -42,6 +42,26 @@ inputs:
 
   pic_url:
     description: 'picUrl for link type message'
+    required: false
+    default: ''
+
+  single_title:
+    description: 'single button title for actionCard type message'
+    required: false
+    default: ''
+
+  single_url:
+    description: 'single button url for actionCard type message'
+    required: false
+    default: ''
+
+  btn_orientation:
+    description: 'button arrangement for actionCard type message'
+    required: false
+    default: ''
+
+  btns:
+    description: 'button list for actionCard type message'
     required: false
     default: ''
 
