@@ -55,8 +55,11 @@ async function run() {
 
     const btnsObj = JSON.parse(btns);
     if (!isOverAll) {
-      // btns 中必需包含 title 和 actionURL
-      if (!('title' in btnsObj) || !('actionURL' in btnsObj)) throw new Error('btns list should be exist [title] and [actionURL]');
+      // btns must exist `title` and `actionURL`
+      const btnsRes = btnsObj.every(function (item) {
+        return ('title' in item) && ('actionURL' in item);
+      });
+      if (!btnsRes) throw new Error('btns list object should be exist [title] and [actionURL]');
     }
 
     // msgtype of feedCard
