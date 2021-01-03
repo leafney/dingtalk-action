@@ -281,4 +281,4 @@ jobs:
 
 ## Dingtalk Webhook Official document
 
-- [dingtalk webhook](https://ding-doc.dingtalk.com/doc#/serverapi3/iydd5h)
+- [dingtalk webhook](https://ding-doc.dingtalk.com/doc#/serverapi2/qf2nxq)

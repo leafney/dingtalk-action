@@ -26,7 +26,7 @@ jobs:
         feed_links: |
           [
             {
-                "title": "时代的火车向前开", 
+                "title": "测试feedCard-时代的火车向前开", 
                 "messageURL": "https://www.dingtalk.com/", 
                 "picURL": "https://img.alicdn.com/tfs/TB1yL3taUgQMeJjy0FeXXXOEVXa-492-380.png"
             },
