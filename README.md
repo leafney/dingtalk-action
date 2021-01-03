@@ -1,116 +1,161 @@
-# Create a JavaScript Action
+# Dingtalk Robot Notify
 
-<p align="center">
-  <a href="https://github.com/actions/javascript-action/actions"><img alt="javscript-action status" src="https://github.com/actions/javascript-action/workflows/units-test/badge.svg"></a>
-</p>
+Github actions for sending notifications to Dingtalk
 
-Use this template to bootstrap the creation of a JavaScript action.:rocket:
 
-This template includes tests, linting, a validation workflow, publishing, and versioning guidance.
+## General settings
 
-If you are new, there's also a simpler introduction.  See the [Hello World JavaScript Action](https://github.com/actions/hello-world-javascript-action)
 
-## Create an action from this template
+### Environment variable parameters
 
-Click the `Use this Template` and provide the new repo details for your action
+- `DINGTALK_ACCESS_TOKEN` -- **Required** dingtalk access_token
+- `DINGTALK_SECRET` -- **Optional** dingtalk secret
 
-## Code in Main
 
-Install the dependencies
+### Input parameters
 
-```bash
-npm install
+| option | type | required | default | description |
+| ------ | ---- | -------- | ------- | ----------- |
+| `msgtype` | string | Yes | `text` | dingtalk support message type of `text` `link` `markdown` `actionCard` `feedCard` |
+| `status` | string | No | `${{ job.status }}` | The current status of the job. Possible values are `success`, `failure`, or `cancelled`. |
+| `notify_when` | string | No | `success,failure,cancelled` | Specify on which events a dingtalk notification is sent, Multiple items are separated by commas |
+
+
+-----
+
+
+## text
+
+### Example usage
+
+```
+steps:
+  - uses: leafney/dingtalk-action@v1
+    if: always()
+    env:
+      DINGTALK_ACCESS_TOKEN: ${{ secrets.DINGTALK_ACCESS_TOKEN }}
+    with:
+      msgtype: text
+      text: '测试--钉钉消息 @15311112222 通知测试'
+      at_mobiles: '15311112222,15233334444'
 ```
 
-Run the tests :heavy_check_mark:
+### Options
 
-```bash
-$ npm test
+| option | type | required | default | description |
+| ------ | ---- | -------- | ------- | ----------- |
+| `text` | string | Yes | `'This is the default content'` | Message content |
+| `at_mobiles` | string | No | `''` | The phone number of the @person (add the phone number of the @person in the content) |
+| `at_all` | bool | No | `false` | Do you @everyone |
 
- PASS  ./index.test.js
-  ✓ throws invalid number (3ms)
-  ✓ wait 500 ms (504ms)
-  ✓ test runs (95ms)
-...
+
+-----
+
+
+## link
+
+### Example usage
+
+```
+steps:
+  - uses: leafney/dingtalk-action@v1
+    if: always()
+    env:
+      DINGTALK_ACCESS_TOKEN: ${{ secrets.DINGTALK_ACCESS_TOKEN }}
+    with:
+      msgtype: link
+      title: '这是一个链接通知'
+      text: '测试--钉钉消息测试，链接通知'
+      msg_url: 'https://github.com/'
 ```
 
-## Change action.yml
+### Options
 
-The action.yml defines the inputs and output for your action.
+| option | type | required | default | description |
+| ------ | ---- | -------- | ------- | ----------- |
+| `title` | string | Yes | `'This is the default title'` | Message title |
+| `text` | string | Yes | `'This is the default content'` | Message content |
+| `msg_url` | string | Yes | `'https://github.com/leafney/dingtalk-action'` | Click on the URL of the message jump |
+| `pic_url` | string | No | `''` | the URL of image |
 
-Update the action.yml with your name, description, inputs and outputs for your action.
 
-See the [documentation](https://help.github.com/en/articles/metadata-syntax-for-github-actions)
+-----
 
-## Change the Code
+## markdown
 
-Most toolkit and CI/CD operations involve async operations so the action is run in an async function.
 
-```javascript
-const core = require('@actions/core');
-...
+### Example usage
 
-async function run() {
-  try {
-      ...
-  }
-  catch (error) {
-    core.setFailed(error.message);
-  }
-}
+```
+jobs:
+  success-notify:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - run: exit 0
+    - name: success notify
+      uses: leafney/dingtalk-action@v1
+      if: always()
+      env:
+        DINGTALK_ACCESS_TOKEN: ${{ secrets.DINGTALK_ACCESS_TOKEN }}
+      with:
+        msgtype: markdown
+        notify_when: 'success'
+        title: '代码测试通过'
+        text: |
+          **<font color=#00FF00 size=4>构建成功</font>**
 
-run()
+          ### GitHub Action workflow **${{ github.workflow }}** 构建成功
+
+  failure-notify:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - run: exit 1
+    - name: failure notify
+      uses: leafney/dingtalk-action@v1
+      if: always()
+      env:
+        DINGTALK_ACCESS_TOKEN: ${{ secrets.DINGTALK_ACCESS_TOKEN }}
+      with:
+        msgtype: markdown
+        notify_when: 'failure'
+        title: '代码测试发现异常'
+        text: |
+          **<font color=#FF0000 size=4>构建失败</font>**
+
+          ### GitHub Action workflow **${{ github.workflow }}** 构建失败
+
+          - 问题一
+          - 问题二
+          - 问题三
 ```
 
-See the [toolkit documentation](https://github.com/actions/toolkit/blob/master/README.md#packages) for the various packages.
+### Options
 
-## Package for distribution
+| option | type | required | default | description |
+| ------ | ---- | -------- | ------- | ----------- |
+| `title` | string | Yes | `'This is the default title'` | Message title |
+| `text` | string | Yes | `'This is the default content'` | Message content |
+| `at_mobiles` | string | No | `''` | The phone number of the @person (add the phone number of the @person in the content) |
+| `at_all` | bool | No | `false` | Do you @everyone |
 
-GitHub Actions will run the entry point from the action.yml. Packaging assembles the code into one file that can be checked in to Git, enabling fast and reliable execution and preventing the need to check in node_modules.
 
-Actions are run from GitHub repos.  Packaging the action will create a packaged action in the dist folder.
+-----
 
-Run prepare
 
-```bash
-npm run prepare
-```
+## actionCard
 
-Since the packaged index.js is run from the dist folder.
+Coming soon...
 
-```bash
-git add dist
-```
+-----
 
-## Create a release branch
+## feedCard
 
-Users shouldn't consume the action from master since that would be latest code and actions can break compatibility between major versions.
+Coming soon...
 
-Checkin to the v1 release branch
+-----
 
-```bash
-git checkout -b v1
-git commit -a -m "v1 release"
-```
+## Dingtalk Webhook
 
-```bash
-git push origin v1
-```
-
-Note: We recommend using the `--license` option for ncc, which will create a license file for all of the production node modules used in your project.
-
-Your action is now published! :rocket:
-
-See the [versioning documentation](https://github.com/actions/toolkit/blob/master/docs/action-versioning.md)
-
-## Usage
-
-You can now consume the action by referencing the v1 branch
-
-```yaml
-uses: actions/javascript-action@v1
-with:
-  milliseconds: 1000
-```
-
-See the [actions tab](https://github.com/actions/javascript-action/actions) for runs of this action! :rocket:
+- [dingtalk webhook](https://ding-doc.dingtalk.com/doc#/serverapi3/iydd5h)
