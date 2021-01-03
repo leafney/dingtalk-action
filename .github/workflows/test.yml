@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    
+
     # - uses: ./
     #   if: always()
     #   env:
@@ -26,7 +26,6 @@ jobs:
         title: '整体跳转的actionCard测试'
         text: '测试--钉钉消息通知测试'
         single_title: '阅读原文'
-        btn_orientation: '1'
 
 
   # success-notify:
