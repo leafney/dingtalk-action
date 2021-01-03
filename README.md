@@ -165,6 +165,25 @@ jobs:
 
 ### Overall jump ActionCard
 
+#### Example usage
+
+```
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: leafney/dingtalk-action@v1
+      if: always()
+      env:
+        DINGTALK_ACCESS_TOKEN: ${{ secrets.DINGTALK_ACCESS_TOKEN }}
+      with:
+        msgtype: actionCard
+        title: '整体跳转的actionCard测试'
+        text: '测试--钉钉消息通知测试'
+        single_title: '阅读原文'
+```
+
 #### Options
 
 | option | type | required | default | description |
@@ -175,10 +194,26 @@ jobs:
 | `single_url` | string | Yes | `'https://github.com/leafney/dingtalk-action'` | single button url |
 
 
-| `btn_orientation` | string | No | `'0'` |  button arrangement of `0`-vertical , `1`-horizontal |
-
-
 ### Independent jump ActionCard
+
+#### Example usage
+
+```
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: leafney/dingtalk-action@v1
+      if: always()
+      env:
+        DINGTALK_ACCESS_TOKEN: ${{ secrets.DINGTALK_ACCESS_TOKEN }}
+      with:
+        msgtype: actionCard
+        title: '整体跳转的actionCard测试'
+        text: '测试--钉钉消息通知测试'
+        single_title: '阅读原文'
+```
 
 #### Options
 
@@ -198,6 +233,6 @@ Coming soon...
 
 -----
 
-## Dingtalk Webhook
+## Dingtalk Webhook Official document
 
 - [dingtalk webhook](https://ding-doc.dingtalk.com/doc#/serverapi3/iydd5h)

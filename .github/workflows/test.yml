@@ -23,9 +23,19 @@ jobs:
         DINGTALK_ACCESS_TOKEN: ${{ secrets.DINGTALK_ACCESS_TOKEN }}
       with:
         msgtype: actionCard
-        title: '整体跳转的actionCard测试'
+        title: '独立跳转的actionCard测试'
         text: '测试--钉钉消息通知测试'
-        single_title: '阅读原文'
+        btns: |
+          [
+            {
+                "title": "内容不错",
+                "actionURL": "https://www.dingtalk.com/"
+            },
+            {
+                "title": "不感兴趣",
+                "actionURL": "https://www.dingtalk.com/"
+            }
+          ]
 
 
   # success-notify:
