@@ -34,8 +34,8 @@ async function run() {
     const picUrl = core.getInput('pic_url');
 
     // msgtype of actionCard
-    const singleTitle = core.getInput('single_title');
-    const singleUrl = core.getInput('single_url');
+    let singleTitle = core.getInput('single_title');
+    let singleUrl = core.getInput('single_url');
     const btns = core.getInput('btns') || '[]';
     const btnOrientation = core.getInput('btn_orientation') || '0';
 

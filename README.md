@@ -162,7 +162,33 @@ jobs:
 
 ## actionCard
 
-Coming soon...
+
+### Overall jump ActionCard
+
+#### Options
+
+| option | type | required | default | description |
+| ------ | ---- | -------- | ------- | ----------- |
+| `title` | string | Yes | `'This is the default title'` | Message title |
+| `text` | string | Yes | `'This is the default content'` | Message content |
+| `single_title` | string | Yes | `Read More` | single button title |
+| `single_url` | string | Yes | `'https://github.com/leafney/dingtalk-action'` | single button url |
+
+
+| `btn_orientation` | string | No | `'0'` |  button arrangement of `0`-vertical , `1`-horizontal |
+
+
+### Independent jump ActionCard
+
+#### Options
+
+| option | type | required | default | description |
+| ------ | ---- | -------- | ------- | ----------- |
+| `title` | string | Yes | `'This is the default title'` | Message title |
+| `text` | string | Yes | `'This is the default content'` | Message content |
+| `btn_orientation` | string | No | `'0'` |  button arrangement of `0`-vertical , `1`-horizontal |
+| `btns` | string | Yes | `'[]'` | a piece of text for list with `title` and `actionURL` like `[{"title":"内容不错","actionURL":"https://www.dingtalk.com/"}]` |
+
 
 -----
 
