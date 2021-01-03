@@ -25,6 +25,7 @@ jobs:
         msgtype: actionCard
         title: '独立跳转的actionCard测试'
         text: '测试--钉钉消息通知测试'
+        btn_orientation: 1
         btns: |
           [
             {
