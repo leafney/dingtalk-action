@@ -156,10 +156,10 @@ async function run() {
       });
 
       if (ret.data.errcode) {
-        throw new Error(`Dingtalk Robot Notify Return Error: [${ret.data.errcode}] ${ret.data.message}`);
+        throw new Error(`Dingtalk Robot Notify Return Error: [${ret.data.errcode}] ${ret.data.errmsg}`);
       }
     } else {
-      core.info(`Dingtalk Robot Notify Skipped Status: ${jobStatus}`);
+      core.info(`Dingtalk Robot Notify Skipped Status: [${jobStatus}]`);
     }
 
   } catch (error) {
