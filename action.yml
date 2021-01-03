@@ -7,7 +7,7 @@ inputs:
 
   msgtype:
     description: 'dingtalk message type'
-    required: true
+    required: false
     default: 'text'
 
   notify_when:

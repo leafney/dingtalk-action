@@ -34,13 +34,21 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
+
+    - uses: leafney/dingtalk-action@v1
+      if: always()
+      env:
+        DINGTALK_ACCESS_TOKEN: ${{ secrets.DINGTALK_ACCESS_TOKEN }}
+      with:
+        text: '测试--钉钉消息通知测试'
+
     - uses: leafney/dingtalk-action@v1
       if: always()
       env:
         DINGTALK_ACCESS_TOKEN: ${{ secrets.DINGTALK_ACCESS_TOKEN }}
       with:
         msgtype: text
-        text: '测试--钉钉消息 @15311112222 通知测试'
+        text: '测试--钉钉消息 @15311112222 通知 @15233334444 测试'
         at_mobiles: '15311112222,15233334444'
 ```
 
