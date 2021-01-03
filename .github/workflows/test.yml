@@ -22,7 +22,7 @@ jobs:
       env:
         DINGTALK_ACCESS_TOKEN: ${{ secrets.DINGTALK_ACCESS_TOKEN }}
       with:
-        msgtype: feedCard
+        msgtype: aa
         feed_links: |
           [
             {
