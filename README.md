@@ -16,7 +16,7 @@ Github actions for sending notifications to Dingtalk
 
 | option | type | required | default | description |
 | ------ | ---- | -------- | ------- | ----------- |
-| `msgtype` | string | Yes | `text` | dingtalk support message type of `text` `link` `markdown` `actionCard` `feedCard` |
+| `msgtype` | string | No | `text` | dingtalk support message type of `text` `link` `markdown` `actionCard` `feedCard` |
 | `status` | string | No | `${{ job.status }}` | The current status of the job. Possible values are `success`, `failure`, or `cancelled`. |
 | `notify_when` | string | No | `success,failure,cancelled` | Specify on which events a dingtalk notification is sent, Multiple items are separated by commas |
 
