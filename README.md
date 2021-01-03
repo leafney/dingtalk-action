@@ -233,14 +233,49 @@ jobs:
 | `title` | string | Yes | `'This is the default title'` | Message title |
 | `text` | string | Yes | `'This is the default content'` | Message content |
 | `btn_orientation` | string | No | `'0'` |  button arrangement of `0`-vertical , `1`-horizontal |
-| `btns` | string | Yes | `'[]'` | a piece of text for list with `title` and `actionURL` like `[{"title":"内容不错","actionURL":"https://www.dingtalk.com/"}]` |
+| `btns` | string | Yes | `'[]'` | text for list with `title` and `actionURL` like `[{"title":"内容不错","actionURL":"https://www.dingtalk.com/"}]` |
 
 
 -----
 
 ## feedCard
 
-Coming soon...
+### Example usage
+
+```
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: leafney/dingtalk-action@v1
+      if: always()
+      env:
+        DINGTALK_ACCESS_TOKEN: ${{ secrets.DINGTALK_ACCESS_TOKEN }}
+      with:
+        msgtype: actionCard
+        title: '独立跳转的actionCard测试'
+        text: '测试--钉钉消息通知测试'
+        btns: |
+          [
+            {
+                "title": "内容不错",
+                "actionURL": "https://www.dingtalk.com/"
+            },
+            {
+                "title": "不感兴趣",
+                "actionURL": "https://www.dingtalk.com/"
+            }
+          ]
+
+```
+
+### Options
+
+| option | type | required | default | description |
+| ------ | ---- | -------- | ------- | ----------- |
+| `feed_links` | string | Yes | `'[]'` | text for list with `title`  `messageURL` and `picURL` like `[{"title":"内容不错","messageURL":"https://www.dingtalk.com/","picURL":"https://www.dingtalk.com/"}]` |
+
 
 -----
 

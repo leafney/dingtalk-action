@@ -65,6 +65,11 @@ inputs:
     required: false
     default: ''
 
+  feed_links:
+    description: 'feed links list for feedCard type message'
+    required: false
+    default: ''
+
 runs:
   using: 'node12'
   main: 'dist/index.js'

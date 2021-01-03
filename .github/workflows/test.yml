@@ -22,19 +22,20 @@ jobs:
       env:
         DINGTALK_ACCESS_TOKEN: ${{ secrets.DINGTALK_ACCESS_TOKEN }}
       with:
-        msgtype: actionCard
-        title: '独立跳转的actionCard测试'
+        msgtype: feedCard
+        title: 'feedCard测试'
         text: '测试--钉钉消息通知测试'
-        btn_orientation: 1
-        btns: |
+        feed_links: |
           [
             {
-                "title": "内容不错",
-                "actionURL": "https://www.dingtalk.com/"
+                "title": "时代的火车向前开", 
+                "messageURL": "https://www.dingtalk.com/", 
+                "picURL": "https://img.alicdn.com/tfs/TB1yL3taUgQMeJjy0FeXXXOEVXa-492-380.png"
             },
             {
-                "title": "不感兴趣",
-                "actionURL": "https://www.dingtalk.com/"
+                "title": "时代的火车向前开2", 
+                "messageURL": "https://www.dingtalk.com/", 
+                "picURL": "https://img.alicdn.com/tfs/TB1yL3taUgQMeJjy0FeXXXOEVXa-492-380.png"
             }
           ]
 

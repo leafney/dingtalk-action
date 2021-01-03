@@ -63,9 +63,15 @@ async function run() {
     }
 
     // msgtype of feedCard
-    // const customCont = core.getInput('custom');
+    const feedLinks = core.getInput('feed_links') || '[]';
+    const feedObj = JSON.parse(feedLinks);
 
-    core.info(`输入参数 notifyWhen:${notifyWhen} singleTitle:${singleTitle} singleUrl:${singleUrl} btns:${btns} btnOrientation:${btnOrientation}`);
+    const feedRes = feedObj.every(function (item) {
+      return ('title' in item) && ('messageURL' in item) && ('picURL' in item);
+    });
+    if (!feedRes) throw new Error('feed_links list object should be exist [title] [messageURL] and [picURL]');
+
+    core.info(`输入参数 notifyWhen:${notifyWhen} singleTitle:${singleTitle} singleUrl:${singleUrl} btns:${btns} feedLinks:${feedLinks}`);
 
     let payload = { msgtype };
     switch (msgtype) {
@@ -113,6 +119,10 @@ async function run() {
         } else {
           payload['actionCard']['btns'] = btnsObj;
         }
+        break;
+      case 'feedCard':
+        payload['feedCard'] = {};
+        payload['feedCard']['links'] = feedObj;
         break;
       default:
         break;
