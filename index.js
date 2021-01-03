@@ -119,7 +119,7 @@ async function run() {
         break;
     }
 
-    core.info(`the payload context: ${JSON.stringify(payload)}`);
+    // core.info(`the payload context: ${JSON.stringify(payload)}`);
 
     const url = new URL(`?access_token=${accessToken}`, DINGTALK_URL);
 
@@ -148,6 +148,8 @@ async function run() {
 
       if (ret.data.errcode) {
         throw new Error(`Dingtalk Robot Notify Return Error: [${ret.data.errcode}] ${ret.data.errmsg}`);
+      } else {
+        core.info(`Dingtalk Robot Notify Sent Successfully!`);
       }
     } else {
       core.info(`Dingtalk Robot Notify Skipped Status: [${jobStatus}]`);
