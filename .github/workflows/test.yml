@@ -10,6 +10,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
+    # text
     # - uses: ./
     #   if: always()
     #   env:
@@ -17,25 +18,47 @@ jobs:
     #   with:
     #     text: '测试--钉钉消息通知测试'
 
+    # actionCard
     - uses: ./
       if: always()
       env:
         DINGTALK_ACCESS_TOKEN: ${{ secrets.DINGTALK_ACCESS_TOKEN }}
       with:
-        msgtype: aa
-        feed_links: |
+        msgtype: actionCard
+        title: '独立跳转的actionCard测试'
+        text: '测试--钉钉消息通知测试'
+        btns: |
           [
             {
-                "title": "测试feedCard-时代的火车向前开", 
-                "messageURL": "https://www.dingtalk.com/", 
-                "picURL": "https://img.alicdn.com/tfs/TB1yL3taUgQMeJjy0FeXXXOEVXa-492-380.png"
+                "title": "内容不错",
+                "actionURL": "https://www.dingtalk.com/"
             },
             {
-                "title": "时代的火车向前开2", 
-                "messageURL": "https://www.dingtalk.com/", 
-                "picURL": "https://img.alicdn.com/tfs/TB1yL3taUgQMeJjy0FeXXXOEVXa-492-380.png"
+                "title": "不感兴趣",
+                "actionURL": "https://www.dingtalk.com/"
             }
           ]
+
+    # # feedCard
+    # - uses: ./
+    #   if: always()
+    #   env:
+    #     DINGTALK_ACCESS_TOKEN: ${{ secrets.DINGTALK_ACCESS_TOKEN }}
+    #   with:
+    #     msgtype: feedCard
+    #     feed_links: |
+    #       [
+    #         {
+    #             "title": "测试feedCard-时代的火车向前开", 
+    #             "messageURL": "https://www.dingtalk.com/", 
+    #             "picURL": "https://img.alicdn.com/tfs/TB1yL3taUgQMeJjy0FeXXXOEVXa-492-380.png"
+    #         },
+    #         {
+    #             "title": "时代的火车向前开2", 
+    #             "messageURL": "https://www.dingtalk.com/", 
+    #             "picURL": "https://img.alicdn.com/tfs/TB1yL3taUgQMeJjy0FeXXXOEVXa-492-380.png"
+    #         }
+    #       ]
 
 
   # success-notify:

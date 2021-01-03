@@ -36,43 +36,6 @@ async function run() {
     const atMobiles = core.getInput('at_mobiles');
     const atAll = (core.getInput('at_all') || 'false').toUpperCase() === 'TRUE';
 
-    // msgtype of link
-    const msgUrl = core.getInput('msg_url') || ACTION_PACKAGE;
-    const picUrl = core.getInput('pic_url');
-
-    // msgtype of actionCard
-    let singleTitle = core.getInput('single_title');
-    let singleUrl = core.getInput('single_url');
-    const btns = core.getInput('btns') || '[]';
-    const btnOrientation = core.getInput('btn_orientation') || '0';
-
-    let isOverAll = false;
-    if (singleTitle != '' || singleUrl != '') {
-      isOverAll = true;
-    }
-    singleTitle = singleTitle || 'Read More';
-    singleUrl = singleUrl || ACTION_PACKAGE;
-
-    const btnsObj = JSON.parse(btns);
-    if (!isOverAll) {
-      // btns must exist `title` and `actionURL`
-      const btnsRes = btnsObj.every(function (item) {
-        return ('title' in item) && ('actionURL' in item);
-      });
-      if (!btnsRes) throw new Error('btns list object should be exist [title] and [actionURL]');
-    }
-
-    // msgtype of feedCard
-    const feedLinks = core.getInput('feed_links') || '[]';
-    const feedObj = JSON.parse(feedLinks);
-
-    const feedRes = feedObj.every(function (item) {
-      return ('title' in item) && ('messageURL' in item) && ('picURL' in item);
-    });
-    if (!feedRes) throw new Error('feed_links list object should be exist [title] [messageURL] and [picURL]');
-
-    core.info(`输入参数 notifyWhen:${notifyWhen} singleTitle:${singleTitle} singleUrl:${singleUrl} btns:${btns} feedLinks:${feedLinks}`);
-
     let payload = { msgtype };
     switch (msgtype) {
       case 'text':
@@ -88,6 +51,10 @@ async function run() {
         }
         break;
       case 'link':
+        // msgtype of link
+        const msgUrl = core.getInput('msg_url') || ACTION_PACKAGE;
+        const picUrl = core.getInput('pic_url');
+
         payload['link'] = {};
         payload['link']['title'] = title;
         payload['link']['text'] = text;
@@ -108,6 +75,28 @@ async function run() {
         }
         break;
       case 'actionCard':
+        // msgtype of actionCard
+        let singleTitle = core.getInput('single_title');
+        let singleUrl = core.getInput('single_url');
+        const btns = core.getInput('btns') || '[]';
+        const btnOrientation = core.getInput('btn_orientation') || '0';
+
+        let isOverAll = false;
+        if (singleTitle != '' || singleUrl != '') {
+          isOverAll = true;
+        }
+        singleTitle = singleTitle || 'Read More';
+        singleUrl = singleUrl || ACTION_PACKAGE;
+
+        const btnsObj = JSON.parse(btns);
+        if (!isOverAll) {
+          // btns must exist `title` and `actionURL`
+          const btnsRes = btnsObj.every(function (item) {
+            return ('title' in item) && ('actionURL' in item);
+          });
+          if (!btnsRes) throw new Error('btns list object should be exist [title] and [actionURL]');
+        }
+
         payload['actionCard'] = {};
         payload['actionCard']['title'] = title;
         payload['actionCard']['text'] = text;
@@ -121,6 +110,15 @@ async function run() {
         }
         break;
       case 'feedCard':
+        // msgtype of feedCard
+        const feedLinks = core.getInput('feed_links') || '[]';
+        const feedObj = JSON.parse(feedLinks);
+
+        const feedRes = feedObj.every(function (item) {
+          return ('title' in item) && ('messageURL' in item) && ('picURL' in item);
+        });
+        if (!feedRes) throw new Error('feed_links list object should be exist [title] [messageURL] and [picURL]');
+
         payload['feedCard'] = {};
         payload['feedCard']['links'] = feedObj;
         break;
