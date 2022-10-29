@@ -1,6 +1,6 @@
 {
   "name": "dingtalk-action",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Send Notifications to Dingtalk",
   "main": "index.js",
   "scripts": {
@@ -24,11 +24,11 @@
   },
   "homepage": "https://github.com/leafney/dingtalk-action#readme",
   "dependencies": {
-    "@actions/core": "^1.2.6",
-    "axios": "^0.21.1"
+    "@actions/core": "^1.10.0",
+    "axios": "^1.1.3"
   },
   "devDependencies": {
-    "@vercel/ncc": "^0.26.1",
-    "eslint": "^7.17.0"
+    "@vercel/ncc": "^0.34.0",
+    "eslint": "^8.26.0"
   }
 }
