@@ -281,3 +281,10 @@ jobs:
 ## Dingtalk Webhook Official document
 
 - [dingtalk webhook](https://ding-doc.dingtalk.com/doc#/serverapi2/qf2nxq)
+
+
+## Build
+
+```
+npm run package
+```
